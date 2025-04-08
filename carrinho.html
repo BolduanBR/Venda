@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Carrinho de Compras</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      padding: 20px;
+      background-color: #f2f2f2;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .produto {
+      background-color: #fff;
+      padding: 15px;
+      margin: 15px auto;
+      max-width: 600px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .produto h2 {
+      margin: 0 0 10px;
+    }
+
+    .produto p {
+      margin: 5px 0;
+    }
+
+    .remover-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .remover-btn:hover {
+      background-color: #c0392b;
+    }
+
+    .btn-finalizar {
+      background-color: #2ecc71;
+      color: white;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: block;
+      margin: 30px auto 0;
+    }
+
+    .btn-finalizar:hover {
+      background-color: #27ae60;
+    }
+
+    .btn-copiar {
+      padding: 6px 12px;
+      border: none;
+      background-color: #555;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .btn-copiar:hover {
+      background-color: #333;
+    }
+
+    #contador-itens {
+      font-weight: bold;
+      color: #2980b9;
+    }
+
+    #total-compra {
+      font-size: 20px;
+      color: #27ae60;
+      text-align: center;
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Seu Carrinho (<span id="contador-itens">0</span> itens)</h1>
+  <div id="carrinho-container"></div>
+
+  <!-- Total da Compra -->
+  <p id="total-compra">Total: R$ 0,00</p>
+
+  <!-- Seção de Pagamento -->
+  <div id="pagamento" style="max-width: 600px; margin: 40px auto;">
+    <h2>Formas de Pagamento</h2>
+
+    <!-- PIX -->
+    <div style="margin-bottom: 20px;">
+      <h3>Pix</h3>
+      <p>Chave Pix: <strong id="pix-chave">luizbolduan@gmail.com</strong></p>
+      <button onclick="copiarPix()" class="btn-copiar">Copiar chave Pix</button>
+      <div style="text-align: center;">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?data=luizbolduan@gmail.com&size=150x150" alt="QR Code Pix">
+      </div>
+    </div>
+
+    <!-- Cartão / Mercado Pago -->
+    <div style="margin-bottom: 20px;">
+      <h3>Cartão de Crédito</h3>
+      <a href="https://mpago.la/SEULINKAQUI" target="_blank">
+        <button style="background-color:#3498db; color:white; padding:10px 20px; border:none; border-radius:6px; cursor:pointer;">
+          Pagar com Mercado Pago
+        </button>
+      </a>
+    </div>
+  </div>
+
+  <!-- Botão Finalizar -->
+  <button onclick="finalizarCompra()" class="btn-finalizar">Finalizar Compra</button>
+
+  <script>
+    let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+    const container = document.getElementById("carrinho-container");
+    const contador = document.getElementById("contador-itens");
+
+    function atualizarCarrinho() {
+      container.innerHTML = "";
+      contador.textContent = carrinho.length;
+
+      if (carrinho.length === 0) {
+        container.innerHTML = "<p style='text-align:center;'>Seu carrinho está vazio.</p>";
+        document.getElementById("pagamento").style.display = "none";
+        document.getElementById("total-compra").textContent = "Total: R$ 0,00";
+        return;
+      }
+
+      document.getElementById("pagamento").style.display = "block";
+
+      carrinho.forEach((item, index) => {
+        const produtoDiv = document.createElement("div");
+        produtoDiv.classList.add("produto");
+        produtoDiv.innerHTML = `
+          <h2>${item.nome}</h2>
+          <p>${item.descricao || ""}</p>
+          <p><strong>Preço:</strong> R$ ${item.preco.toFixed(2)}</p>
+          <button class="remover-btn" onclick="removerItem(${index})">Remover</button>
+        `;
+        container.appendChild(produtoDiv);
+      });
+
+      calcularTotal();
+    }
+
+    function calcularTotal() {
+      const total = carrinho.reduce((soma, item) => soma + item.preco, 0);
+      document.getElementById("total-compra").textContent = `Total: R$ ${total.toFixed(2)}`;
+    }
+
+    function removerItem(index) {
+      carrinho.splice(index, 1);
+      localStorage.setItem("carrinho", JSON.stringify(carrinho));
+      atualizarCarrinho();
+    }
+
+    function finalizarCompra() {
+      if (carrinho.length === 0) {
+        alert("Seu carrinho está vazio!");
+        return;
+      }
+
+      alert("Compra finalizada! Siga as instruções de pagamento abaixo.");
+
+      if (confirm("Deseja esvaziar o carrinho?")) {
+        carrinho = [];
+        localStorage.removeItem("carrinho");
+        atualizarCarrinho();
+      }
+    }
+
+    function copiarPix() {
+      const chave = document.getElementById("pix-chave").textContent;
+      navigator.clipboard.writeText(chave)
+        .then(() => alert("Chave Pix copiada com sucesso!"))
+        .catch(() => alert("Erro ao copiar chave Pix."));
+    }
+
+    atualizarCarrinho();
+  </script>
+
+</body>
+</html>

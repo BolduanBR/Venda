@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empresa Modelo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/estilo.css">
+  <style>
+    .modal {
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: none;
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 800px;
+      border-radius: 8px;
+      position: relative;
+    }
+    .close {
+      color: #aaa;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .modal img {
+      max-width: 100px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Empresa Modelo</div>
+    <nav>
+      <a href="#nós">Nós</a>
+      <a href="#produtos">Produtos</a>
+      <a href="#contato">Contato</a>
+      <a href="carrinho.html" class="cart-icon">
+        🛒 Carrinho <span id="cart-count">(0)</span>
+      </a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <img src="https://play-lh.googleusercontent.com/VibGROUhpWvJ33kJzLRCgDCv2HWyiUFTTgGyUyRuJUA2JVAIqCNXbUYNsGQWgUC-pg" alt="Logo da Empresa Modelo">
+  </section>
+
+  <section id="nós" class="seccion">
+    <h2 class="section-title">Sobre Nós</h2>
+    <p class="about-text">
+      Somos uma empresa dedicada a oferecer produtos de alta qualidade. Nosso compromisso é fornecer soluções eficazes aos nossos clientes.
+    </p>
+  </section>
+
+  <section id="produtos" class="seccion">
+    <div class="products">
+      <!-- Produto 1 -->
+      <div class="product-card" data-images="./css/imagens/iten de venda 1.jpg, https://muonlinefanz.com.br/imgs/full.jpg">
+        <img src="./css/imagens/iten de venda 1.jpg" alt="dw account">
+        <div class="card-content">
+          <h3>Soul Mage</h3>
+          <p>Soul Mage lvl 450</p>
+          <ul>
+            <li>Vip Gold</li>
+            <li>Set full</li>
+          </ul>
+          <span class="preco">R$ 5350,00</span>
+          <button class="btn-carrinho" onclick="adicionarAoCarrinho('Produto 1', 450.00, event)">Adicionar ao carrinho</button>
+        </div>
+      </div>
+
+      <!-- Produto 2 -->
+      <div class="product-card" data-images="./css/imagens/mu.jpg, ./css/imagens/mu.jpg">
+        <img src="./css/imagens/mu.jpg" alt="Mu Account">
+        <div class="card-content">
+          <h3>Blade Knight</h3>
+          <p></p>
+          <ul>
+            <li>Blade Knight lvl 680</li>
+            <li>Vip Gold</li>
+            <li>Set Full</li>
+          </ul>
+          <span class="preco">R$ 550,00</span>
+          <button class="btn-carrinho" onclick="adicionarAoCarrinho('Mu Account', 300.00, event)">Adicionar ao carrinho</button>
+        </div>
+      </div>
+
+      <!-- Produto 3 -->
+      <div class="product-card" data-images="./css/imagens/iten de venda 2.jpg">
+        <img src="./css/imagens/iten de venda 2.jpg" alt="Produto 3">
+        <div class="card-content">
+          <h3>Mouse Elf</h3>
+          <p>Vip Silver</p>
+          <ul>
+            <li>Set Full</li>
+            <li>Lvl 366</li>
+          </ul>
+          <span class="preco">R$ 129,00</span>
+          <button class="btn-carrinho" onclick="adicionarAoCarrinho('Produto 3', 129.00, event)">Adicionar ao carrinho</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contato" class="seccion">
+    <h2 class="section-title">Contato</h2>
+    <p class="contact-info">Email: luizbolduan@gmail.com | Tel: +55 48 9 8468-1422</p>
+  </section>
+
+  <section id="pagamento" class="seccion">
+    <h2 class="section-title">Formas de Pagamento</h2>
+    <div class="payment-methods">
+      <a href="#pix-info">
+        <img src="https://img.icons8.com/color/512/pix.png" alt="Pix">
+      </a>
+    </div>
+
+    <div class="payment-info">
+      <h3 id="pix-info">PIX:</h3>
+      <p>Chave: <strong id="pix-chave">a8c0b22f-e9b2-4af3-bad0-9e43975ca2d7</strong></p>
+      <button onclick="copiarPix()" class="btn-copiar">Copiar chave Pix</button>
+      <div class="qrcode">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?data=00020126580014BR.GOV.BCB.PIX0136670d5744-9ab4-4cd3-8f7d-00567bf5069e5204000053039865802BR5925Luiz%20Felipe%20da%20Silva%20Bold6009SAO%20PAULO62140510x1YdzoxXrb6304A237&size=150x150" alt="QR Code Pix">
+        <p>Escaneie o QR Code ou use a chave Pix acima para efetuar o pagamento.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Empresa Modelo. Todos os direitos reservados.
+  </footer>
+
+  <!-- Modal da galeria de imagens -->
+  <div id="image-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div id="modal-images" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;"></div>
+    </div>
+  </div>
+
+  <script>
+    function copiarPix() {
+      const chave = document.getElementById("pix-chave").textContent;
+
+      navigator.clipboard.writeText(chave)
+        .then(() => {
+          alert("Chave Pix copiada com sucesso!");
+        })
+        .catch(err => {
+          console.error("Erro ao copiar:", err);
+          alert("Erro ao copiar a chave Pix.");
+        });
+    }
+
+    function adicionarAoCarrinho(nome, preco, event) {
+      event?.stopPropagation();
+      const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+      carrinho.push({ nome, preco });
+      localStorage.setItem("carrinho", JSON.stringify(carrinho));
+      atualizarContadorCarrinho();
+      alert("Produto adicionado ao carrinho!");
+    }
+
+    function atualizarContadorCarrinho() {
+      const itens = JSON.parse(localStorage.getItem('carrinho')) || [];
+      document.getElementById('cart-count').textContent = `(${itens.length})`;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      atualizarContadorCarrinho();
+
+      document.querySelectorAll('.product-card').forEach(card => {
+        const img = card.querySelector('img');
+        img?.addEventListener('click', function (event) {
+          event.stopPropagation();
+          const images = card.getAttribute('data-images')?.split(',') || [];
+          const modal = document.getElementById('image-modal');
+          const modalContent = document.getElementById('modal-images');
+          modalContent.innerHTML = images.map(src => `<img src="${src.trim()}" alt="Imagem adicional">`).join('');
+          modal.style.display = 'block';
+        });
+      });
+
+      document.querySelector('.modal .close')?.addEventListener('click', function () {
+        document.getElementById('image-modal').style.display = 'none';
+      });
+
+      window.addEventListener('click', function (event) {
+        const modal = document.getElementById('image-modal');
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
