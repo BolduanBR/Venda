@@ -7,7 +7,7 @@
 body {
   font-family: 'Roboto', sans-serif;
   line-height: 1.6;
-  background-image: url('./imagens/Fundo.jpeg');
+  background-image: url('./src/css/imagens/Fundo.jpeg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
